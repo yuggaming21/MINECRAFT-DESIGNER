@@ -18,17 +18,8 @@ export default {
     .setName('qr')
     .setDescription('Show the QR code'),
 
-  supportsPrefixExecution: true,
-
   async execute(interaction) {
     await interaction.reply({
-      content: '📱 **Scan this QR code:**',
-      files: [getQrFile()]
-    });
-  },
-
-  async executePrefix(message) {
-    await message.reply({
       content: '📱 **Scan this QR code:**',
       files: [getQrFile()]
     });
