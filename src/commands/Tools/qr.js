@@ -5,21 +5,32 @@ import path from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function getQrFile() {
+  const qrPath = path.join(__dirname, '../../../assets/qr.png');
+
+  return new AttachmentBuilder(qrPath, {
+    name: 'qr.png'
+  });
+}
+
 export default {
-    data: new SlashCommandBuilder()
-        .setName('qr')
-        .setDescription('Show the QR code'),
+  data: new SlashCommandBuilder()
+    .setName('qr')
+    .setDescription('Show the QR code'),
 
-    async execute(interaction) {
-        const qrPath = path.join(__dirname, '../../../assets/qr.png');
+  supportsPrefixExecution: true,
 
-        const qr = new AttachmentBuilder(qrPath, {
-            name: 'qr.png',
-        });
+  async execute(interaction) {
+    await interaction.reply({
+      content: '📱 **Scan this QR code:**',
+      files: [getQrFile()]
+    });
+  },
 
-        await interaction.reply({
-            content: '📱 **Scan this QR code:**',
-            files: [qr],
-        });
-    },
+  async executePrefix(message) {
+    await message.reply({
+      content: '📱 **Scan this QR code:**',
+      files: [getQrFile()]
+    });
+  }
 };
